@@ -62,12 +62,12 @@ public class GuitarHeroLite {
             // pluck the corresponding string
     		char value = arr[q];
             // check if the user has typed a key, and, if so, process it
+    		StdDraw.text(.5, .5, value+"");
     		while (true) {
             if (StdDraw.hasNextKeyTyped()) {
             	
                 // the user types this character
                 char key = StdDraw.nextKeyTyped();
-
                 
                 if (key == 'a') {
                 	stringA.pluck();
@@ -119,12 +119,13 @@ public class GuitarHeroLite {
 
             // send the result to standard audio
             StdAudio.play(sample);
-
+            
             // advance the simulation of each guitar string by one step
             for (int i = 0; i<13; i++) {
             	strings[i].tic();
             }
         }
+    		StdDraw.clear();
     	}
         
     }
