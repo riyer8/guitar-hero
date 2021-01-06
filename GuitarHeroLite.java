@@ -69,44 +69,44 @@ public class GuitarHeroLite {
                 // the user types this character
                 char key = StdDraw.nextKeyTyped();
                 
-                if (key == 'a') {
+                if (key == 'a' && value == key) {
                 	stringA.pluck();
                 	break;
                 }
-                else if (key == 'b') {
+                else if (key == 'b'&& value == key) {
                 	stringAB.pluck();break;
                 }
-                else if (key == 'c') {
+                else if (key == 'c'&& value == key) {
                 	stringB.pluck();break;
                 }
-                else if (key == 'd') {
+                else if (key == 'd'&& value == key) {
                 	stringC.pluck();break;
                 }
-                else if (key == 'e') {
+                else if (key == 'e'&& value == key) {
                 	stringCD.pluck();break;
                 }
-                else if (key == 'f') {
+                else if (key == 'f'&& value == key) {
                 	stringD.pluck();break;
                 }
-                else if (key == 'g') {
+                else if (key == 'g'&& value == key) {
                 	stringDE.pluck();break;
                 }
-                else if (key == 'h') {
+                else if (key == 'h'&& value == key) {
                 	stringE.pluck();break;
                 }
-                else if (key == 'i') {
+                else if (key == 'i'&& value == key) {
                 	stringF.pluck();break;
                 }
-                else if (key == 'j') {
+                else if (key == 'j'&& value == key) {
                 	stringFG.pluck();break;
                 }
-                else if (key == 'k') {
+                else if (key == 'k'&& value == key) {
                 	stringG.pluck();break;
                 }
-                else if (key == 'l') {
+                else if (key == 'l'&& value == key) {
                 	stringGA.pluck();break;
                 }
-                else if (key == 'm') {
+                else if (key == 'm'&& value == key) {
                 	stringAH.pluck();break;
                 }
             }
@@ -131,3 +131,4 @@ public class GuitarHeroLite {
     }
 
 }
+
