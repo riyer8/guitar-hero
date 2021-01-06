@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /*****************************************************************************
  *  Compilation:  javac GuitarHeroLite.java
  *  Execution:    java  GuitarHeroLite
@@ -47,43 +49,66 @@ public class GuitarHeroLite {
 	        	}
 	        }
         }
-		play();
+        char[] musicnotes = new char[50];
+        for (int i = 'a'; i<50+'a'; i++) {
+        	musicnotes [i-'a'] = (char)('a'+((i-'a')%26));
+        }
+        System.out.println(Arrays.toString(musicnotes));
+		play(musicnotes);
     }
     
-    private static void play() {
-    	while (true) {
+    private static void play(char[] arr) {
+    	for (int q = 0; q<arr.length; q++) {
             // pluck the corresponding string
-    		/*
-                String test = "my letters appear one by one";
-                for (int i = 0; i < test.length(); i++) {
-                    System.out.print(test.charAt(i));
-                    try {
-                        Thread.sleep(1000L);    // time interval in milliseconds
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                */
+    		char value = arr[q];
             // check if the user has typed a key, and, if so, process it
+    		while (true) {
             if (StdDraw.hasNextKeyTyped()) {
             	
                 // the user types this character
                 char key = StdDraw.nextKeyTyped();
 
                 
-                if (key == 'a') stringA.pluck();
-                else if (key == 'b') stringAB.pluck();
-                else if (key == 'c') stringB.pluck();
-                else if (key == 'd') stringC.pluck();
-                else if (key == 'e') stringCD.pluck();
-                else if (key == 'f') stringD.pluck();
-                else if (key == 'g') stringDE.pluck();
-                else if (key == 'h') stringE.pluck();
-                else if (key == 'i') stringF.pluck();
-                else if (key == 'j') stringFG.pluck();
-                else if (key == 'k') stringG.pluck();
-                else if (key == 'l') stringGA.pluck();
-                else if (key == 'm') stringAH.pluck();
+                if (key == 'a') {
+                	stringA.pluck();
+                	break;
+                }
+                else if (key == 'b') {
+                	stringAB.pluck();break;
+                }
+                else if (key == 'c') {
+                	stringB.pluck();break;
+                }
+                else if (key == 'd') {
+                	stringC.pluck();break;
+                }
+                else if (key == 'e') {
+                	stringCD.pluck();break;
+                }
+                else if (key == 'f') {
+                	stringD.pluck();break;
+                }
+                else if (key == 'g') {
+                	stringDE.pluck();break;
+                }
+                else if (key == 'h') {
+                	stringE.pluck();break;
+                }
+                else if (key == 'i') {
+                	stringF.pluck();break;
+                }
+                else if (key == 'j') {
+                	stringFG.pluck();break;
+                }
+                else if (key == 'k') {
+                	stringG.pluck();break;
+                }
+                else if (key == 'l') {
+                	stringGA.pluck();break;
+                }
+                else if (key == 'm') {
+                	stringAH.pluck();break;
+                }
             }
 
             // compute the superposition of the samples
@@ -100,6 +125,7 @@ public class GuitarHeroLite {
             	strings[i].tic();
             }
         }
+    	}
         
     }
 
