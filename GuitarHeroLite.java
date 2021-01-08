@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /*****************************************************************************
@@ -49,18 +50,28 @@ public class GuitarHeroLite {
 	        	}
 	        }
         }
-        char[] musicnotes = new char[50];
-        for (int i = 'a'; i<50+'a'; i++) {
-        	musicnotes [i-'a'] = (char)('a'+((i-'a')%13));
-        }
-		play(musicnotes);
+        ArrayList<String> arr = new ArrayList<String>();
+        arr.add("a"); arr.add("b"); arr.add("a"); arr.add("b");
+        arr.add("e"); arr.add("c"); arr.add("d"); arr.add("k");
+        arr.add("l"); arr.add("m"); arr.add("f"); arr.add("g");
+        arr.add("b"); arr.add("a"); arr.add("c"); arr.add("d");
+        arr.add("c"); arr.add("d"); arr.add("e"); arr.add("a");
+        arr.add("b"); arr.add("f"); arr.add("g"); arr.add("e");
+        arr.add("f"); arr.add("g"); arr.add("End!");
+        
+		play(arr);
     }
     
-    private static void play(char[] arr) {
-    	for (int q = 0; q<arr.length; q++) {
+    private static void play(ArrayList<String> arr) {
+    	for (int q = 0; q<arr.size(); q++) {
             // pluck the corresponding string
-    		char value = arr[q];
+    		if (q == arr.size()-1) {
+    			StdDraw.text(.5, .5, arr.get(q));
+    			return;
+    		}
+    		char value = arr.get(q).charAt(0);
             // check if the user has typed a key, and, if so, process it
+    		
     		StdDraw.text(.5, .5, value+"");
     		while (true) {
             if (StdDraw.hasNextKeyTyped()) {
@@ -131,6 +142,7 @@ public class GuitarHeroLite {
     }
 
 }
+/*
 class Test {
     
     public class letter{
@@ -158,7 +170,6 @@ class Test {
     }
     
     public static void main(String[] args)throws Exception {
-        // TODO Auto-generated method stub
         new Test().run();
     }                                               
     
@@ -168,7 +179,7 @@ class Test {
         letter t = new letter("t", 0,1);
         
         boolean temp = true;
-        while(temp == true) {
+        while(temp) {
             if(s.elapsedTime() > 0.11) {
                 s = new Stopwatch();
                 
@@ -188,3 +199,4 @@ class Test {
         }
     }
 }
+*/
