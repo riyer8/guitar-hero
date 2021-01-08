@@ -51,9 +51,8 @@ public class GuitarHeroLite {
         }
         char[] musicnotes = new char[50];
         for (int i = 'a'; i<50+'a'; i++) {
-        	musicnotes [i-'a'] = (char)('a'+((i-'a')%26));
+        	musicnotes [i-'a'] = (char)('a'+((i-'a')%13));
         }
-        System.out.println(Arrays.toString(musicnotes));
 		play(musicnotes);
     }
     
@@ -68,46 +67,47 @@ public class GuitarHeroLite {
             	
                 // the user types this character
                 char key = StdDraw.nextKeyTyped();
-                
-                if (key == 'a' && value == key) {
-                	stringA.pluck();
-                	break;
-                }
-                else if (key == 'b'&& value == key) {
-                	stringAB.pluck();break;
-                }
-                else if (key == 'c'&& value == key) {
-                	stringB.pluck();break;
-                }
-                else if (key == 'd'&& value == key) {
-                	stringC.pluck();break;
-                }
-                else if (key == 'e'&& value == key) {
-                	stringCD.pluck();break;
-                }
-                else if (key == 'f'&& value == key) {
-                	stringD.pluck();break;
-                }
-                else if (key == 'g'&& value == key) {
-                	stringDE.pluck();break;
-                }
-                else if (key == 'h'&& value == key) {
-                	stringE.pluck();break;
-                }
-                else if (key == 'i'&& value == key) {
-                	stringF.pluck();break;
-                }
-                else if (key == 'j'&& value == key) {
-                	stringFG.pluck();break;
-                }
-                else if (key == 'k'&& value == key) {
-                	stringG.pluck();break;
-                }
-                else if (key == 'l'&& value == key) {
-                	stringGA.pluck();break;
-                }
-                else if (key == 'm'&& value == key) {
-                	stringAH.pluck();break;
+                if (value == key) {
+	                if (key == 'a') {
+	                	stringA.pluck();
+	                	break;
+	                }
+	                else if (key == 'b') {
+	                	stringAB.pluck();break;
+	                }
+	                else if (key == 'c') {
+	                	stringB.pluck();break;
+	                }
+	                else if (key == 'd') {
+	                	stringC.pluck();break;
+	                }
+	                else if (key == 'e') {
+	                	stringCD.pluck();break;
+	                }
+	                else if (key == 'f') {
+	                	stringD.pluck();break;
+	                }
+	                else if (key == 'g') {
+	                	stringDE.pluck();break;
+	                }
+	                else if (key == 'h') {
+	                	stringE.pluck();break;
+	                }
+	                else if (key == 'i') {
+	                	stringF.pluck();break;
+	                }
+	                else if (key == 'j') {
+	                	stringFG.pluck();break;
+	                }
+	                else if (key == 'k') {
+	                	stringG.pluck();break;
+	                }
+	                else if (key == 'l') {
+	                	stringGA.pluck();break;
+	                }
+	                else if (key == 'm') {
+	                	stringAH.pluck();break;
+	                }
                 }
             }
 
@@ -131,4 +131,60 @@ public class GuitarHeroLite {
     }
 
 }
+class Test {
+    
+    public class letter{
+        String key;
+        double x;
+        double y;
+        
+        public letter(String key, double x, double y) {
+            this.key=key;
+            this.x = x;
+            this.y = y;
+        }
+    }
+    
+    public class Stopwatch { 
 
+        private final long start;
+        public Stopwatch() {
+            start = System.currentTimeMillis();
+        } 
+        public double elapsedTime() {
+            long now = System.currentTimeMillis();
+            return (    now - start) / 1000.0;
+        }
+    }
+    
+    public static void main(String[] args)throws Exception {
+        // TODO Auto-generated method stub
+        new Test().run();
+    }                                               
+    
+    public void run() throws Exception {
+        Stopwatch s = new Stopwatch();
+        StdDraw.setCanvasSize(700, 700);
+        letter t = new letter("t", 0,1);
+        
+        boolean temp = true;
+        while(temp == true) {
+            if(s.elapsedTime() > 0.11) {
+                s = new Stopwatch();
+                
+                StdDraw.setPenColor(StdDraw.WHITE);
+                StdDraw.filledCircle(t.x,  t.y,  0.015);
+                
+                t.y -= 0.015;
+                StdDraw.setPenColor(StdDraw.BLACK);
+                StdDraw.text(t.x, t.y, t.key);
+                
+                if(t.y < -5) {
+                    StdDraw.setPenColor(StdDraw.BLACK);
+                    StdDraw.text(t.x, t.y, t.key);
+                    temp = false;
+                }
+            }
+        }
+    }
+}
