@@ -1,5 +1,5 @@
 /******************************************************************************
- *  Name: 
+ *  Name: Ramya and Jewell
  *  
  * Description: 
  * This is a template file for GuitarString.java. It lists the constructors
@@ -14,12 +14,11 @@
 public class GuitarString {
 		RingBuffer buffer;
 		int length;
-		int sample = 44100;
+		int samp = 44100;
 		// using sampling rate of 44,100
-	
     public GuitarString(double frequency) {
     	length = 0;
-		buffer = new RingBuffer((int) Math.ceil(sample / frequency));
+		buffer = new RingBuffer((int) Math.ceil(samp / frequency));
 		while(!buffer.isFull())
 			buffer.enqueue(0);
     }
@@ -27,7 +26,7 @@ public class GuitarString {
     public GuitarString(double[] init) {
     	length = 0;
 		buffer = new RingBuffer(init.length);
-		for(int i = 0; i < init.length; i++) {
+		for(int i = 0; i<init.length; i++) {
 			buffer.enqueue(init[i]);
 		}
     }
@@ -37,7 +36,7 @@ public class GuitarString {
     }
 
     public void pluck() {
-    	for(int i = 0; i < buffer.capacity(); i++) {
+    	for(int i = 0; i<buffer.capacity; i++) {
 			buffer.enqueue(Math.random() - 0.5);
 		}
     }
@@ -52,13 +51,15 @@ public class GuitarString {
     }
     
     public static void main(String[] args) {
-         double[] samples = { .2, .4, .5, .3, -.2, .4, .3, .0, -.1, -.3 };  
-         GuitarString testString = new GuitarString(samples);
-         for (int i = 0; i < samples.length; i++) {
-             int t = testString.length();
-             double sample = testString.sample();
-             System.out.printf("%6d %8.4f\n", t, sample);
-             testString.tic();
+         double[] arr = {.1,.2,.3,.4,-.1,-.4,-.3,.5};  
+         GuitarString guitartest = new GuitarString(arr);
+         for (int i = 0; i < arr.length; i++) {
+             int t = guitartest.length();
+             double samp = guitartest.sample();
+             System.out.println(t);
+             System.out.println(samp);
+             System.out.println("--------------");
+             guitartest.tic();
          }
     }
 
