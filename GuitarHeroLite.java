@@ -1,44 +1,66 @@
+import java.awt.Color;
 import java.util.*;
 
-/*****************************************************************************
- *  Compilation:  javac GuitarHeroLite.java
- *  Execution:    java  GuitarHeroLite
- *  Dependencies: StdAudio.java StdDraw.java GuitarString.java
- *
- *  Plays two guitar strings (concert A and concert C) when the user
- *  types the lowercase letters 'a' and 'c', respectively in the 
- *  standard drawing window.
- *
- ****************************************************************************/
-
+class Guitar {
+	char letter;
+	double x, y;
+	boolean gone;
+	public Guitar(char letter, double val) {
+		this.letter = letter;
+		this.x = val/38+.03;
+		this.y = .9;
+	}
+	public String toString() {
+		return letter+ " " + x + " " + y;
+	}
+}
+class Pair {
+	Color col;
+	Queue<Guitar> qu;
+	public Pair(Queue<Guitar> qu, Color col) {
+		this.qu = qu;
+		this.col = col;
+	}
+	public String toString() {
+		return col + " " + qu;
+	}
+}
 public class GuitarHeroLite {
-	static double[] values;
-	static GuitarString[] strings;
+	static Stopwatch stopwatch;
 	static Map<Character, GuitarString> stringvals;
+	static Map<Integer, Pair> columns;
+	static ArrayList<Guitar> arr;
+	static GuitarString[] strings;
 	public static void main(String[] args) {
+		Scanner sc = new Scanner("Play.txt");
+		StdDraw.setCanvasSize(1000,700);
 		stringvals = new HashMap<Character, GuitarString>();
-		values = new double[37];
+		arr = new ArrayList<Guitar>();
+		columns = new HashMap<Integer, Pair>();
 		strings = new GuitarString[37];
+		int count = 0;
 		for (int i = 0; i<37; i++) {
 			//values[i] = 110*Math.pow(2, i/12.0);
-			values[i] = 440*Math.pow(2, (i-12)/12.0);
-			strings[i] = new GuitarString(values[i]);
+			strings[i] = new GuitarString(440*Math.pow(2, (i-12)/12.0));
+			char tempchar = ' ';
 			if (i<10) {
+				tempchar = (char)(i+48);
 				stringvals.put((char)(i+48), strings[i]);
 			}
-			else if (i == 36) stringvals.put(';', strings[i]);
+			else if (i == 36) {
+				tempchar = ';';
+				stringvals.put(';', strings[i]);
+			}
 			else {
+				tempchar = (char)(i+87);
 				stringvals.put((char)(i+87), strings[i]);
 			}
-			// so I just made all the keys 0-9, a-z, and ; and i took out all
-			// the code and made it concise. now the main thing
-			//to do is to create the two polynomials and the letters falling.
+			arr.add(new Guitar(tempchar,(double)i));
 		}
-		System.out.println(stringvals);
-        
+		
         final double TEXT_POS_Y = .5;
         StdDraw.text(.5, TEXT_POS_Y, "Type 's' to start");
-        while(true) {
+        while(true) {	  
 	        if (StdDraw.hasNextKeyTyped()) {
 	        	char key = StdDraw.nextKeyTyped();
 	        	if (key == 's') {
@@ -47,98 +69,56 @@ public class GuitarHeroLite {
 	        	}
 	        }
         }
-        ArrayList<String> arr = new ArrayList<String>();
-        for (char a: stringvals.keySet()) {
-        	arr.add(a+"");
-        }
 		play(arr);
     }
-    
-    private static void play(ArrayList<String> arr) {
+    private static void play(ArrayList<Guitar> arr) {
+    	StdDraw.enableDoubleBuffering();
     	for (int q = 0; q<arr.size(); q++) {
-    		char value = arr.get(q).charAt(0);
-    		StdDraw.text(.5, .5, value+"");
+    		
+    		for(int i = 0; i < 37; i++) {
+				StdDraw.setPenColor(Color.GRAY);
+				StdDraw.line(i/37.0,0,i/37.0, 1);
+			}
     		while (true) {
-            if (StdDraw.hasNextKeyTyped()) {
-            	
-                // the user types this character
-                char key = StdDraw.nextKeyTyped();
-                if (value == key) {
-                	if (stringvals.containsKey(key)) {
-                		stringvals.get(key).pluck();
-                		break;
-                	}
-                }
-            }
-            double sample = 0;
-            for (int i = 0; i<37; i++) {
-            	sample+=strings[i].sample();
-            }
-            StdAudio.play(sample);
-            for (int i = 0; i<37; i++) {
-            	strings[i].tic();
-            }
-        }
-    	StdDraw.clear();
+	    		if(stopwatch.elapsedTime() > 1.5) { 
+	            		stopwatch = new Stopwatch();
+	            	    StdDraw.clear();
+		        		for(Guitar t : arr) {
+		        			t.y -= 0.05;
+		        			StdDraw.setPenColor(StdDraw.BLACK);
+		        			StdDraw.text(t.x,t.y,t.letter+"");
+		        		}
+		        		StdDraw.show();
+	            }
+	            if (StdDraw.hasNextKeyTyped()) {
+	                char key = StdDraw.nextKeyTyped();
+	                if (arr.get(q).letter == key) {
+	                	if (stringvals.containsKey(key)) {
+	                		stringvals.get(key).pluck();
+	                		break;
+	                	}
+	                }
+	            }
+	            double sample = 0;
+	            for (int i = 0; i<37; i++) {
+	            	sample+=strings[i].sample();
+	            }
+	            StdAudio.play(sample);
+	            for (int i = 0; i<37; i++) {
+	            	strings[i].tic();
+	            }
+	            StdDraw.disableDoubleBuffering();
+    		}
     	}
-        
-    }
-
+   }
 }
-/*
-class Test {
-    
-    public class letter{
-        String key;
-        double x;
-        double y;
-        
-        public letter(String key, double x, double y) {
-            this.key=key;
-            this.x = x;
-            this.y = y;
-        }
+class Stopwatch { 
+    static long start;
+    public Stopwatch() {
+        start = System.currentTimeMillis();
     }
-    
-    public class Stopwatch { 
-        private final long start;
-        public Stopwatch() {
-            start = System.currentTimeMillis();
-        } 
-        public double elapsedTime() {
-            long now = System.currentTimeMillis();
-            return (    now - start) / 1000.0;
-        }
+    public static double elapsedTime() {
+        long now = System.currentTimeMillis();
+        return (now - start) / 1000.0;
     }
-    
-    public static void main(String[] args)throws Exception {
-        new Test().run();
-    }                                               
-    
-    public void run() throws Exception {
-        Stopwatch s = new Stopwatch();
-        StdDraw.setCanvasSize(700, 700);
-        letter t = new letter("t", 0,1);
-        
-        boolean temp = true;
-        while(temp) {
-            if(s.elapsedTime() > 0.11) {
-                s = new Stopwatch();
-                
-                StdDraw.setPenColor(StdDraw.WHITE);
-                StdDraw.filledCircle(t.x,  t.y,  0.015);
-                
-                t.y -= 0.015;
-                StdDraw.setPenColor(StdDraw.BLACK);
-                StdDraw.text(t.x, t.y, t.key);
-                
-                if(t.y < -5) {
-                    StdDraw.setPenColor(StdDraw.BLACK);
-                    StdDraw.text(t.x, t.y, t.key);
-                    temp = false;
-                }
-            }
-        }
-    }
-}
-*/
+} 
